@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (environment) {
+module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'test-app',
     environment,
@@ -9,17 +9,42 @@ module.exports = function (environment) {
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
-        // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
+        // e.g. 'with-controller': true
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false,
-      },
+        Date: false
+      }
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    contentSecurityPolicy: {
+      'style-src': "'self' 'unsafe-inline'"
+    },
+
+    browserify: {
+      tests: true
+    },
+
+    torii: {
+      allowUnsafeRedirects: true,
+      providers: {
+        'facebook-oauth2': {
+          apiKey: '631252926924840'
+        }
+      }
+    },
+
+    apiHost: 'http://localhost:4200',
+
+    googleClientID: '694766332436-1g5bakjoo5flkfpv3t2mfsch9ghg7ggd.apps.googleusercontent.com',
+
+    fastboot: {
+      hostWhitelist: [/^localhost:\d+$/]
     },
   };
 
@@ -44,7 +69,11 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
+    // put production settings here
+    ENV.fastboot = {
+      hostWhitelist: ['demo.ember-simple-auth.com', 'esa-demo.herokuapp.com']
+    };
+    ENV.apiHost = 'https://demo-api.ember-simple-auth.com';
   }
 
   return ENV;
